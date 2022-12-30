@@ -1,0 +1,45 @@
+:root {
+    --pill: 69rem;
+    --subtle: 4px;
+}
+
+button,
+.button {
+    padding: 1rem;
+    background: transparent;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    font-weight: bold;
+    cursor: pointer;
+
+    border: none;
+    border-radius: var(--subtle);
+}
+
+button.main,
+.button.main {
+    padding: 1rem 2rem;
+    background: var(--accent1);
+    color: var(--accent2);
+    border-radius: var(--pill);
+}
+
+a,
+button.link,
+.button.link {
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+    font-weight: normal;
+}
+
+button.main.invert,
+.button.main.invert {
+    background: var(--background);
+    color: var(--text);
+}
