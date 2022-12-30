@@ -14,10 +14,10 @@ jobs:
         run: npm run test
       - name: building code base
         run: npm run build
-      # - name: deploying preview
-      #   uses: FirebaseExtended/action-hosting-deploy@v0
-      #   with:
-      #     repoToken: "${{ secrets.GITHUB_TOKEN }}"
-      #     firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_SADFORMS }}"
-      #     channelId: preview
-      #     projectId: sadforms
+      - name: deploying preview
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VIBE_BYJACKLI }}'
+          channelId: preview
+          projectId: vibe-byjackli
