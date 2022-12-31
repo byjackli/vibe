@@ -4,3 +4,8 @@ export type SongDetails = {
     artists: string[],
     image: string,
 }
+
+export type CardDetails = {
+    songDetails: SongDetails,
+    trackPosition: number,
+}
