@@ -44,8 +44,8 @@
 @font-face {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 100;
-    src: url(../fonts/inter/Inter-Thin.ttf);
+    font-weight: 200;
+    src: url(../fonts/inter/Inter-ExtraLight.ttf);
     -webkit-font-smoothing: antialiased;
 }
 
