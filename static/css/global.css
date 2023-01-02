@@ -8,6 +8,7 @@
     --good: #17C733;
     --placeholder: #ffffff80;
     --disabled: #05334D;
+    --hover: #ffffff51;
 
     --active: drop-shadow(0px 0px 25px #00000040);
     --inactive: drop-shadow(0px 0px 50px #0000001a);
