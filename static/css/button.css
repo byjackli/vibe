@@ -7,6 +7,10 @@
     --scroll-inactive: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0.4) 100%);
 }
 
+a:link {
+    display: inline-flex;
+}
+
 button,
 .button {
     padding: 1rem;
@@ -25,6 +29,7 @@ button,
     border-radius: var(--subtle);
 }
 
+a:link:hover,
 button:hover,
 .button:hover,
 button:focus-visible,
@@ -37,8 +42,9 @@ button.recent:hover,
 .button.recent:hover,
 button.result:hover,
 .button.result:hover,
-button.link:hover,
-.button.link:hover,
+a:link:active,
+button.link:active,
+.button.link:active,
 button:active,
 .button:active {
     transform: scale3d(1, 1, 1);
@@ -52,7 +58,7 @@ button.main,
     border-radius: var(--pill);
 }
 
-a,
+a:link,
 button.link,
 .button.link {
     padding: 0;

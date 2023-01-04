@@ -1,2 +1,5 @@
-<h1>ViBE</h1>
-<p>explore new sounds</p>
+<script lang="ts">
+	import Welcome from '../views/Welcome.svelte';
+</script>
+
+<Welcome />
