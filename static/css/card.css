@@ -1,0 +1,62 @@
+/* .card {
+    background-color: white;
+    border-radius: 0.2rem;
+    width: 18rem;
+    padding: 0.5rem;
+} */
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0.2rem;
+    height: 6rem;
+    width: 18rem;
+    padding: 0.5rem;
+    /* align-items: center; */
+    justify-content: center;
+}
+.songDetails {
+    display: flex;
+    color: var(--accent2);
+}
+.card p {
+    color: black;
+    font-size:larger;
+    padding-left: 0.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-height: 1.5rem;
+    max-width: 13rem;
+}
+.title {
+    font-weight: bold;
+}
+
+img {
+    width: 3rem;
+    height: 3rem;
+}
+.controls {
+    display: flex;
+}
+.controls span {
+    color: var(--accent2);
+}
+.controlButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.controlButtons span {
+    font-size: 1.5rem;
+}
+.controlButtons button {
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+}
+.trackPlaceholder {
+    margin-right: 0.5rem;
+    width: 9rem;
+    height: 0.2rem;
+    background-color: var(--accent2);
+}
