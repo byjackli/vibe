@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SongDetails } from '../types/SongDetails';
+	import type { SongDetails } from '../types/Details';
 	import Controls from './Controls.svelte';
 	export let songDetails: SongDetails,
 		expand = false;
@@ -15,9 +15,12 @@
 
 		return artistsOneline;
 	}
+	function toggleExpand():void{
+		expand = !expand
+	}
 </script>
 
-<div class="card">
+<div class="card" on:keyup={toggleExpand}>
 	<div>
 		<div class="imageWrapper">
 			<img src={songDetails.image} alt={`cover for ${songDetails.title}`} />
@@ -28,6 +31,7 @@
 		</div>
 	</div>
 	{#if expand}
-		<Controls songid={songDetails.songid} />
+		<Controls songid={songDetails.songid} expanded={expand}/>
 	{/if}
 </div>
+
