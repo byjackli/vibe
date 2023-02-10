@@ -1,31 +1,38 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,0" />
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import { construct_svelte_component } from 'svelte/internal';
 	import ControlStore from '../stores/ControlStore';
-	
+	import { onDestroy } from 'svelte';
+
 	// context vs store;
 	// can only play one song at a time; player controls was extracted
-	const dispatch = createEventDispatcher();	
 	export let songid: string; // required to make modifications to songid (ie add to playlist and more)
-	export let audio: HTMLAudioElement;       //is audio track for song, is an HTML Audio Element
+	export let audio: HTMLAudioElement; //is audio track for song, is an HTML Audio Element
 	export let added: boolean; //whether or not song is added to playlist
 	export let liked: boolean; //whether or not song is favorited
 	export let position: number;
-	let status = {
-		PLAY: 'PLAY',
-		PAUSE: 'PAUSE'
+	export let savedPosition : number;
+
+	let updatePosition = setInterval(() => {
+		position = Math.max(savedPosition, Math.round(audio.currentTime));
+		console.log(position)
+		if(position >= audio.duration){
+			currStatus = status.PAUSE;
+			position = 0;
+		}
+	}, 500);
+
+	enum status{
+		PLAY,
+		PAUSE
 	};
 	let currStatus = status.PAUSE;
 
-	//on currentSongId value change
 	if ($ControlStore.currentSongId != songid) {
-		//trackPosition = audio.currentTime //in seconds
-		currStatus = status.PAUSE;
+		setPause()
 	} else {
 		//audio.load()
-		if (currStatus == status.PLAY) currStatus = status.PAUSE;
+		if (currStatus as status === status.PLAY) currStatus = status.PAUSE;
 		else currStatus = status.PLAY;
 	}
 	
@@ -35,33 +42,32 @@
 	function handleLikeSong() {
 		liked = !liked;
 	}
-	function togglePlay(){
-		if(currStatus === status.PLAY){
-			currStatus = status.PAUSE;
-			audio.pause();
-			position = Math.round(audio.currentTime);
-		}
-		else{
-			currStatus = status.PLAY;
-			audio.currentTime = position;
-			audio.play();
-			setInterval(() => {
-				position = Math.round(audio.currentTime);
-				if(position >= audio.duration){
-					currStatus = status.PAUSE;
-					position = 0;
-				}
-			}, 500);
-		}
+	function setPause(){
+		currStatus = status.PAUSE;
+		audio.pause();
+		position = Math.round(audio.currentTime);
+	}
+	function setPlay(){
+		currStatus = status.PLAY;
+		audio.currentTime = position;
+		audio.play();
+	}
+	function toggleAudio(){
+		if(currStatus as status === status.PLAY)
+			setPause()
+		else
+			setPlay()
 	}
 	function seek(event:any){
-		audio.currentTime = event.target.value;
+		position = event.target.value;
+		audio.currentTime = position;
 	}
+	onDestroy(() => clearInterval(updatePosition))
 </script>
 
 <div class= "controls">
 	<div class="controlButtons">
-		<button class="playPause" on:click|stopPropagation={togglePlay}>
+		<button class="playPause" on:click|stopPropagation={toggleAudio}>
 			<span class="material-icons">
 				{currStatus === status.PLAY ? 'pause' : 'play_arrow'}
 			</span>
