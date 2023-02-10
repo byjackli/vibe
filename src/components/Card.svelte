@@ -5,13 +5,13 @@
 	export let songDetails: SongDetails,
 	expand = false;
 	let trackPosition = 0;
+	let savedPosition = 0;
 	let liked = false;
 	let added = false;
 	let audio: HTMLAudioElement;
 
-	//temp audio for testing
 	onMount(() => {
-		audio = new Audio("https://p.scdn.co/mp3-preview/ce4a01f9dc6091951d0a94b640b625b46e0efbd2?cid=774b29d4f13844c495f206cafdad9c86");
+		audio = new Audio(songDetails.previewAudio);
   	});
 	function renderArtists(): string {
 		const { artists } = songDetails;
@@ -24,16 +24,17 @@
 
 		return artistsOneline;
 	}
-	//when collapsed, pause audio and set expand indicator to false
 	function toggleExpand():void{
 		if(expand){
 			audio.pause();
 		}
+		savedPosition = trackPosition
+		console.log(trackPosition)
 		expand = !expand
 	}
 </script>
-
-<div class="card" on:click={toggleExpand} on:keyup={toggleExpand} aria-expanded={expand}>
+<!-- todo: test below with tapping on touchscreen -->
+<div class="card" on:click={toggleExpand} on:keypress={toggleExpand} aria-expanded={expand}>
 	<div class="songDetails">
 		<div class="imageWrapper">
 			<img src={songDetails.image} alt={`cover for ${songDetails.title}`} />
@@ -42,10 +43,9 @@
 			<p class="title">{songDetails.title}</p>
 			<p class="artists">{renderArtists()}</p>
 		</div>
-		<!-- <div style="color: red">{trackPosition}</div> -->
 	</div>
 	{#if expand}
-		<Controls songid={songDetails.songid} audio={audio} bind:liked={liked} bind:added={added} bind:position={trackPosition}/>
+		<Controls songid={songDetails.songid} audio={audio} savedPosition={savedPosition} bind:liked={liked} bind:added={added} bind:position={trackPosition}/>
 	{/if}
 </div>
 

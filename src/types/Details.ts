@@ -3,6 +3,7 @@ export type SongDetails = {
     title: string,
     artists: string[],
     image: string,
+    previewAudio: string
 }
 
 export type CardDetails = {
