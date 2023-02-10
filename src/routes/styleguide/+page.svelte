@@ -6,6 +6,7 @@
 		title: 'Sample Song Title',
 		artists: ['Bruno Mars'],
 		image: 'https://i.scdn.co/image/ab67616d0000b273072e9faef2ef7b6db63834a3', 
+		previewAudio: "https://p.scdn.co/mp3-preview/ce4a01f9dc6091951d0a94b640b625b46e0efbd2?cid=774b29d4f13844c495f206cafdad9c86"
 	}
 </script>
 
@@ -25,7 +26,7 @@
 		<li><button class="link">link button</button></li>
 	</ul>
 </section>
-<!-- <section id="search_button">
+<section id="search_button">
 	<h2>Search Buttons</h2>
 	<ul>
 		<li>
@@ -60,7 +61,7 @@
 			<SearchButton state="result" type="song" content="Mac Miller - The Spins" />
 		</li>
 	</ul>
-</section> -->
+</section>
 <section>
 	<h2>Cards</h2>
 	<ul>
