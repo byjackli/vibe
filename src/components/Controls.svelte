@@ -22,17 +22,17 @@
 		}
 	}, 500);
 
-	enum status{
-		PLAY,
-		PAUSE
-	};
-	let currStatus = status.PAUSE;
+	const status = {
+		PLAY: 'play',
+		PAUSE: 'pause'
+	} as const;
+	let currStatus = 'pause';
 
-	if ($ControlStore.currentSongId != songid) {
+	if ($ControlStore.currentSongId !== songid) {
 		setPause()
 	} else {
 		//audio.load()
-		if (currStatus as status === status.PLAY) currStatus = status.PAUSE;
+		if (currStatus === status.PLAY) currStatus = status.PAUSE;
 		else currStatus = status.PLAY;
 	}
 	
@@ -53,7 +53,7 @@
 		audio.play();
 	}
 	function toggleAudio(){
-		if(currStatus as status === status.PLAY)
+		if(currStatus === status.PLAY)
 			setPause()
 		else
 			setPlay()
