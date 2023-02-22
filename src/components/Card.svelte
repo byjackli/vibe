@@ -34,7 +34,7 @@
 	}
 </script>
 <!-- todo: test below with tapping on touchscreen -->
-<div class="card" on:click={toggleExpand} on:keypress={toggleExpand} aria-expanded={expand}>
+<div class="card" on:click={toggleExpand} on:keydown={toggleExpand} aria-expanded={expand}>
 	<div class="songDetails">
 		<div class="imageWrapper">
 			<img src={songDetails.image} alt={`cover for ${songDetails.title}`} />
