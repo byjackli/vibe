@@ -1,9 +1,18 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { SongDetails } from '../types/Details';
 	import Controls from './Controls.svelte';
 	export let songDetails: SongDetails,
-		expand = false;
+	expand = false;
+	let trackPosition = 0;
+	let savedPosition = 0;
+	let liked = false;
+	let added = false;
+	let audio: HTMLAudioElement;
 
+	onMount(() => {
+		audio = new Audio(songDetails.previewAudio);
+  	});
 	function renderArtists(): string {
 		const { artists } = songDetails;
 		let artistsOneline = '';
@@ -16,22 +25,27 @@
 		return artistsOneline;
 	}
 	function toggleExpand():void{
+		if(expand){
+			audio.pause();
+		}
+		savedPosition = trackPosition
+		console.log(trackPosition)
 		expand = !expand
 	}
 </script>
-
-<div class="card" on:keyup={toggleExpand}>
-	<div>
+<!-- todo: test below with tapping on touchscreen -->
+<div class="card" on:click={toggleExpand} on:keydown={toggleExpand} aria-expanded={expand}>
+	<div class="songDetails">
 		<div class="imageWrapper">
 			<img src={songDetails.image} alt={`cover for ${songDetails.title}`} />
 		</div>
-		<div class="">
-			<p>{songDetails.title}</p>
-			<p>{renderArtists()}</p>
+		<div>
+			<p class="title">{songDetails.title}</p>
+			<p class="artists">{renderArtists()}</p>
 		</div>
 	</div>
 	{#if expand}
-		<Controls songid={songDetails.songid} expanded={expand}/>
+		<Controls songid={songDetails.songid} audio={audio} savedPosition={savedPosition} bind:liked={liked} bind:added={added} bind:position={trackPosition}/>
 	{/if}
 </div>
 
