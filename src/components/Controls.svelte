@@ -2,7 +2,7 @@
 	// context vs store;
 	// can only play one song at a time; player controls was extracted
 
-    export let songid: string // required to make modifications to songid (ie add to playlist and more)
+	export let songid: string; // required to make modifications to songid (ie add to playlist and more)
 </script>
 
 <div class="controls">
