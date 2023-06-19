@@ -1,13 +1,27 @@
-<svelte:head>
-	<title>ViBE</title>
-</svelte:head>
+<script>
+	import { login, exchangeToken } from '../api/auth';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		if (window.location.search.length > 0) {
+			const url = new URL(window.location.href);
+			const params = new URLSearchParams(url.search);
+			const code = params.get('code');
+			if (code) {
+				localStorage.setItem('code', code)
+				exchangeToken(code);
+			}
+			window.history.replaceState({}, document.title, '/');
+		}
+	});
+</script>
 
 <main>
 	<div class="content">
 		<h1 class="logo">ViBE</h1>
 		<p>advanced version of discover weekly</p>
 	</div>
-	<button class="main">sign in with spotify</button>
+	<button class="main" on:click={login}>sign in with spotify</button>
 </main>
 
 <style>

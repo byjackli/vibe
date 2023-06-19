@@ -10,3 +10,8 @@ export type CardDetails = {
     songDetails: SongDetails,
     trackPosition: number,
 }
+
+export type SearchDetails = {
+    type : string,
+    data : any
+}
