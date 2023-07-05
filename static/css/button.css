@@ -1,32 +1,44 @@
 :root {
-    --pill: 69rem;
-    --subtle: 4px;
-    --hover: #ffffff29;
+	--pill: 69rem;
+	--subtle: 4px;
+	--hover: #ffffff29;
 
-    --scroll-active: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0.5) 100%);
-    --scroll-inactive: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0.4) 100%);
+	--scroll-active: linear-gradient(
+		90deg,
+		rgba(0, 0, 0, 0.5) 0%,
+		rgba(0, 0, 0, 1) 15%,
+		rgba(0, 0, 0, 1) 75%,
+		rgba(0, 0, 0, 0.5) 100%
+	);
+	--scroll-inactive: linear-gradient(
+		90deg,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 1) 15%,
+		rgba(0, 0, 0, 1) 75%,
+		rgba(0, 0, 0, 0.4) 100%
+	);
 }
 
 a:link {
-    display: inline-flex;
+	display: inline-flex;
 }
 
 button,
 .button {
-    padding: 1rem;
-    background: transparent;
+	padding: 1rem;
+	background: transparent;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
 
-    font-weight: bold;
-    cursor: pointer;
+	font-weight: bold;
+	cursor: pointer;
 
-    border: none;
-    border-radius: var(--subtle);
+	border: none;
+	border-radius: var(--subtle);
 }
 
 a:link:hover,
@@ -34,9 +46,8 @@ button:hover,
 .button:hover,
 button:focus-visible,
 .button:focus-visible {
-    transform: scale3d(1.05, 1.05, 1.05);
+	transform: scale3d(1.05, 1.05, 1.05);
 }
-
 
 button.recent:hover,
 .button.recent:hover,
@@ -47,41 +58,41 @@ button.link:active,
 .button.link:active,
 button:active,
 .button:active {
-    transform: scale3d(1, 1, 1);
+	transform: scale3d(1, 1, 1);
 }
 
 button.main,
 .button.main {
-    padding: 1rem 2rem;
-    background: var(--accent1);
-    color: var(--accent2);
-    border-radius: var(--pill);
+	padding: 1rem 2rem;
+	background: var(--accent1);
+	color: var(--accent2);
+	border-radius: var(--pill);
 }
 
 a:link,
 button.link,
 .button.link {
-    padding: 0;
-    margin: 0;
-    text-decoration: underline;
-    font-weight: normal;
+	padding: 0;
+	margin: 0;
+	text-decoration: underline;
+	font-weight: normal;
 }
 
 button.main.invert,
 .button.main.invert {
-    background: var(--background);
-    color: var(--text);
+	background: var(--background);
+	color: var(--text);
 }
 
 button.recent,
 .button.recent,
 button.result,
 .button.result {
-    max-width: 100%;
-    justify-content: flex-start;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+	max-width: 100%;
+	justify-content: flex-start;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 button.recent:focus-visible,
@@ -92,57 +103,57 @@ button.recent:hover,
 .button.recent:hover,
 button.result:hover,
 .button.result:hover {
-    background-color: var(--hover);
+	background-color: var(--hover);
 }
 
 button.recent,
 .button.recent {
-    padding-right: 1.25rem;
-    border: solid 2px var(--text);
+	padding-right: 1.25rem;
+	border: solid 2px var(--text);
 }
 
 button.result,
 .button.result {
-    width: 100%;
-    padding: .5rem;
-    padding-right: 1rem;
-    border-bottom: solid 2px var(--text);
-    border-radius: 0;
+	width: 100%;
+	padding: 0.5rem;
+	padding-right: 1rem;
+	border-bottom: solid 2px var(--text);
+	border-radius: 0;
 }
 
 button.recent .text,
 .button.recent .text,
 button.result .text,
 .button.result .text {
-    display: inline-flex;
-    gap: 1rem;
+	display: inline-flex;
+	gap: 1rem;
 }
 
 button.recent .material-icons,
 .button.recent .material-icons,
 button.result .material-icons,
 .button.result .material-icons {
-    font-size: 1.75rem;
+	font-size: 1.75rem;
 }
 
 button.recent .textContainer,
 .button.recent .textContainer,
 button.result .textContainer,
 .button.result .textContainer {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 button.recent.too-long .textContainer,
 .button.recent.too-long .textContainer,
 button.result.too-long .textContainer,
 .button.result.too-long .textContainer {
-    mask-image: var(--scroll-active);
-    -webkit-mask-image: var(--scroll-active);
-    mask-size: 125%;
-    -webkit-mask-size: 125%;
-    mask-position: right;
-    -webkit-mask-position: right;
-    transition: all .5s;
+	mask-image: var(--scroll-active);
+	-webkit-mask-image: var(--scroll-active);
+	mask-size: 125%;
+	-webkit-mask-size: 125%;
+	mask-position: right;
+	-webkit-mask-position: right;
+	transition: all 0.5s;
 }
 
 button.recent.too-long:focus-visible .textContainer,
@@ -153,25 +164,25 @@ button.recent.too-long:hover .textContainer,
 .button.recent.too-long:hover .textContainer,
 button.result.too-long:hover .textContainer,
 .button.result.too-long:hover .textContainer {
-    mask-size: 100%;
-    -webkit-mask-size: 100%;
-    mask-position: center;
-    -webkit-mask-position: center;
-    transition: all .5s;
+	mask-size: 100%;
+	-webkit-mask-size: 100%;
+	mask-position: center;
+	-webkit-mask-position: center;
+	transition: all 0.5s;
 }
 
 .scroll {
-    animation-name: animate-scroll;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+	animation-name: animate-scroll;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
 }
 
 @keyframes animate-scroll {
-    from {
-        transform: translateX(0);
-    }
+	from {
+		transform: translateX(0);
+	}
 
-    to {
-        transform: translateX(calc(-50% - .5rem));
-    }
+	to {
+		transform: translateX(calc(-50% - 0.5rem));
+	}
 }
