@@ -3,7 +3,7 @@
 	import type { SongDetails } from '../types/Details';
 	import Controls from './Controls.svelte';
 	export let songDetails: SongDetails,
-	expand = false;
+		expand = false;
 	let trackPosition = 0;
 	let savedPosition = 0;
 	let liked = false;
@@ -12,7 +12,7 @@
 
 	onMount(() => {
 		audio = new Audio(songDetails.previewAudio);
-  	});
+	});
 	function renderArtists(): string {
 		const { artists } = songDetails;
 		let artistsOneline = '';
@@ -24,15 +24,16 @@
 
 		return artistsOneline;
 	}
-	function toggleExpand():void{
-		if(expand){
+	function toggleExpand(): void {
+		if (expand) {
 			audio.pause();
 		}
-		savedPosition = trackPosition
-		console.log(trackPosition)
-		expand = !expand
+		savedPosition = trackPosition;
+		console.log(trackPosition);
+		expand = !expand;
 	}
 </script>
+
 <!-- todo: test below with tapping on touchscreen -->
 <div class="card" on:click={toggleExpand} on:keydown={toggleExpand} aria-expanded={expand}>
 	<div class="songDetails">
@@ -45,7 +46,13 @@
 		</div>
 	</div>
 	{#if expand}
-		<Controls songid={songDetails.songid} audio={audio} savedPosition={savedPosition} bind:liked={liked} bind:added={added} bind:position={trackPosition}/>
+		<Controls
+			songid={songDetails.songid}
+			{audio}
+			{savedPosition}
+			bind:liked
+			bind:added
+			bind:position={trackPosition}
+		/>
 	{/if}
 </div>
-

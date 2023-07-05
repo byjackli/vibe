@@ -14,18 +14,18 @@ describe('Auth', () => {
 	});
 	it('generateRandomString - unique strings', () => {
 		const randomStrings: string[] = [];
-		let length = 16;
+		const length = 16;
 		for (let i = 0; i < 50; i++) {
 			randomStrings.push(generateRandomString(length));
 		}
 		for (let i = 1; i < randomStrings.length; i++) {
-			expect(randomStrings[i]).not.toBe(randomStrings[i-1]);
+			expect(randomStrings[i]).not.toBe(randomStrings[i - 1]);
 		}
 	});
 	it('generateRandomString - correct characters', () => {
 		const randomStrings: string[] = [];
 		const characterSet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		let length = 16;
+		const length = 16;
 		for (let i = 0; i < 50; i++) {
 			randomStrings.push(generateRandomString(length));
 		}
