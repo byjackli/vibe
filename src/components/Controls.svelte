@@ -54,8 +54,9 @@
 		if (currStatus === status.PLAY) setPause();
 		else setPlay();
 	}
-	function seek(event: any) {
-		position = event.target.value;
+	function seek(event: Event) {
+		const target = event.target as HTMLInputElement;
+		position = Number(target.value);
 		audio.currentTime = position;
 	}
 	onDestroy(() => clearInterval(updatePosition));

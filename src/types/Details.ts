@@ -6,6 +6,12 @@ export type SongDetails = {
 	previewAudio: string;
 };
 
+export type ArtistDetails = {
+	artistid: string;
+	name: string;
+	image: string;
+};
+
 export type CardDetails = {
 	songDetails: SongDetails;
 	trackPosition: number;
@@ -13,5 +19,5 @@ export type CardDetails = {
 
 export type SearchDetails = {
 	type: string;
-	data: any;
+	data: SongDetails | ArtistDetails;
 };
