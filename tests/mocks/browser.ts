@@ -2,6 +2,22 @@ import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 
 const server = setupServer(
+	rest.get('https://accounts.spotify.com/authorize', (req, res, ctx) => {
+		const requiredParams = [
+			'client_id',
+			'response_type',
+			'redirect_uri',
+			'scope',
+			'code_challenge_method',
+			'code_challenge',
+			'state'
+		];
+		const missingParams = requiredParams.filter((param) => !req.url.searchParams.get(param));
+		if (missingParams.length > 0) {
+			return res(ctx.json({ status: 400 }));
+		}
+		return res(ctx.json({ status: 200 }));
+	}),
 	rest.get('https://api.spotify.com/v1/me', (req, res, ctx) => {
 		return res(
 			ctx.json({
