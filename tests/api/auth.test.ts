@@ -41,7 +41,6 @@ describe('Auth', () => {
 			}
 		}
 	});
-
 	it('generateRandom - correct length', () => {
 		const randomCodeVerifiers: string[] = [];
 		const lengths: number[] = [];
@@ -102,5 +101,16 @@ describe('Auth', () => {
 		const codeChallenge = generateChallenge(codeVerifier);
 		const expectedChallange = 'gfW_xGK4zYme7rNob8NnlKk90HPBXxnilktyr91ei14';
 		expect(codeChallenge).toBe(expectedChallange);
+	});
+	it('Login', () => {
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', `https://accounts.spotify.com/authorize?`, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
+		xhr.send(null);
+		xhr.onload = () => {
+			const responseData = JSON.parse(xhr.responseText);
+			expect(responseData.status).toBe(200);
+		};
 	});
 });
