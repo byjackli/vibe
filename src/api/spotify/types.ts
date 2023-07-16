@@ -1,4 +1,4 @@
-export interface Track {
+export interface Song {
 	album: Album;
 	artists: Artist[];
 	available_markets: string[];
@@ -96,4 +96,16 @@ export interface Artist {
 	popularity: number;
 	type: string;
 	uri: string;
+}
+
+export interface MyResponseType {
+	status: number;
+	responseText: string;
+}
+
+export interface LocalStorage {
+	access_token: string;
+	refresh_token: string;
+	display_name: string;
+	user_id: string;
 }

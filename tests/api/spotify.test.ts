@@ -1,7 +1,6 @@
 import { server } from '../mocks/browser';
 import { describe, it, expect, afterAll, afterEach, beforeAll } from 'vitest';
-
-import { getUserData, getSongs } from '../../src/api/spotify';
+import { getUserData, getSongs } from '../../src/api/spotify/service';
 
 beforeAll(() => {
 	server.listen();

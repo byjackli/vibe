@@ -3,8 +3,15 @@ import {
 	generateRandom,
 	STRING_SET,
 	CODE_VERIFIER_SET,
-	generateChallenge
-} from '../../src/api/auth';
+	generateChallenge,
+	exchangeToken,
+	url
+} from '../../src/api/spotify/auth';
+import { localStorageMock, setItemSpy, getItemSpy } from '../mocks/localStorage';
+
+beforeEach(() => {
+	global.localStorage = localStorageMock;
+});
 
 describe('Auth', () => {
 	it('generateRandom - correct length', () => {
@@ -112,5 +119,23 @@ describe('Auth', () => {
 			const responseData = JSON.parse(xhr.responseText);
 			expect(responseData.status).toBe(200);
 		};
+	});
+	it('exchangeToken localStorage', () => {
+		exchangeToken('mockExchangeToken');
+		expect(getItemSpy).toHaveBeenCalledWith('code_verifier');
+		expect(setItemSpy).toHaveBeenCalledWith(
+			'ViBE',
+			JSON.stringify({
+				access_token: 'mockAccessToken',
+				refresh_token: 'mockRefreshToken',
+				display_name: '',
+				user_id: ''
+			})
+		);
+	});
+	it('exchangeToken redirects on success', () => {
+		jest.spyOn(window.location, 'replace');
+		exchangeToken('mockExchangeToken');
+		expect(window.location.replace).toHaveBeenCalledWith(`${url}`);
 	});
 });

@@ -1,5 +1,5 @@
 import type { SongDetails } from 'src/types/Details';
-import type { Track, Artist } from 'src/api/interfaces/spotifyInterfaces';
+import type { Song, Artist } from 'src/api/spotify/types';
 
 export function getUserData() {
 	const xhr = new XMLHttpRequest();
@@ -28,7 +28,7 @@ export function getSongs(params: string) {
 		const songArray = responseData.items;
 		const songList: SongDetails[] = [];
 		const artists: string[] = responseData.artists.map((artist: Artist) => artist.name);
-		songArray.array.forEach((song: Track) => {
+		songArray.array.forEach((song: Song) => {
 			const newSong: SongDetails = {
 				songid: `${song.id}`,
 				title: `${song.name}`,
