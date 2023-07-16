@@ -1,7 +1,7 @@
 import { server } from '../mocks/browser';
 import { describe, it, expect, afterAll, afterEach, beforeAll } from 'vitest';
 
-import { getUserData } from '../../src/api/spotify';
+import { getUserData, getSongs } from '../../src/api/spotify';
 
 beforeAll(() => {
 	server.listen();
@@ -22,5 +22,20 @@ describe('spotify endpoint tests', () => {
 			display_name: 'mockDisplayName',
 			user_id: 'mockId'
 		});
+	});
+	it('getSongs', () => {
+		const params = new URLSearchParams({
+			mock: 'mockParams'
+		});
+		const result = getSongs(params.toString());
+		expect(result).toEqual([
+			{
+				songid: 'mockId',
+				title: 'mockTitle',
+				artists: ['mockName'],
+				image: 'https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228',
+				previewAudio: 'mockPreviewUrl'
+			}
+		]);
 	});
 });
