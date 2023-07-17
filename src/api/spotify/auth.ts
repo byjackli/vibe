@@ -1,5 +1,5 @@
-import * as crypto from 'crypto';
-import { SHA256, enc } from 'crypto-js';
+import pkg from 'crypto-js';
+const { SHA256, enc } = pkg;
 import type { MyResponseType, LocalStorage } from './types';
 
 export const STRING_SET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,11 +14,18 @@ export const url = 'temp';
 
 export function generateRandom(set: string, length: number) {
 	let random = '';
-	const randomValues = new Uint32Array(length);
-	crypto.getRandomValues(randomValues);
-	for (let i = 0; i < length; i++) {
-		const randomIndex = randomValues[i] % set.length;
-		random += set[randomIndex];
+	if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+		const randomValues = new Uint32Array(length);
+		window.crypto.getRandomValues(randomValues);
+		for (let i = 0; i < length; i++) {
+			const randomIndex = randomValues[i] % set.length;
+			random += set[randomIndex];
+		}
+	} else {
+		for (let i = 0; i < length; i++) {
+			const randomIndex = Math.floor(Math.random() * set.length);
+			random += set[randomIndex];
+		}
 	}
 	return random;
 }
@@ -82,6 +89,41 @@ export function handleExchangeTokenResponse(this: XMLHttpRequest & MyResponseTyp
 			window.location.replace(`${url}`);
 		}
 		localStorage.setItem('ViBE', JSON.stringify(storedObj));
+	} else {
+		alert(this.responseText);
+	}
+}
+
+export function refreshToken(): void {
+	const storedObj = localStorage.getItem('ViBE');
+	if (storedObj) {
+		const obj: LocalStorage = JSON.parse(storedObj);
+		const refreshToken = obj.refresh_token;
+		const body = JSON.stringify({
+			refresh_token: refreshToken,
+			client_id: clientId,
+			grant_type: 'refresh_token'
+		});
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', 'https://accounts.spotify.com/api/token', true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(clientId + ':' + clientSecret));
+		xhr.send(body);
+		xhr.onload = handleRefreshTokenResponse;
+	}
+}
+
+export function handleRefreshTokenResponse(this: XMLHttpRequest & MyResponseType): void {
+	if (this.status === 200) {
+		const storedObj = localStorage.getItem('ViBE');
+		if (storedObj) {
+			const obj: LocalStorage = JSON.parse(storedObj);
+			const data = JSON.parse(this.responseText);
+			if (data.access_token !== undefined) {
+				obj.access_token = data.access_token;
+				localStorage.setItem('ViBE', JSON.stringify(obj));
+			}
+		}
 	} else {
 		alert(this.responseText);
 	}

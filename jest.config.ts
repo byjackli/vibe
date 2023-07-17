@@ -1,3 +1,4 @@
+export {};
 module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'jsdom',
@@ -5,6 +6,5 @@ module.exports = {
 		'^.+\\.svelte$': 'svelte-jester',
 		'^.+\\.ts$': 'ts-jest'
 	},
-	moduleFileExtensions: ['js', 'ts', 'svelte'],
-	setupFilesAfterEnv: ['@testing-library/svelte/cleanup-after-each']
+	moduleFileExtensions: ['js', 'ts', 'svelte']
 };
