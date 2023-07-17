@@ -18,6 +18,22 @@ const server = setupServer(
 		}
 		return res(ctx.json({ status: 200 }));
 	}),
+	rest.post('https://accounts.spotify.com/api/token', async (req, res, ctx) => {
+		const body = await req.json();
+		const params = new URLSearchParams(body);
+		const requiredParams = ['grant_type', 'code', 'redirect_uri', 'client_id', 'code_verifier'];
+		const missingParams = requiredParams.filter((param) => !params.has(param));
+		if (missingParams.length > 0) {
+			return res(ctx.status(400));
+		}
+		return res(
+			ctx.status(200),
+			ctx.json({
+				access_token: 'mockAccessToken',
+				refresh_token: 'mockRefreshToken'
+			})
+		);
+	}),
 	rest.get('https://api.spotify.com/v1/me', (req, res, ctx) => {
 		return res(
 			ctx.json({
