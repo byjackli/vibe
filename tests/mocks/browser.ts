@@ -14,14 +14,17 @@ const server = setupServer(
 		];
 		const missingParams = requiredParams.filter((param) => !req.url.searchParams.get(param));
 		if (missingParams.length > 0) {
-			return res(ctx.json({ status: 400 }));
+			return res(ctx.status(200));
 		}
-		return res(ctx.json({ status: 200 }));
+		return res(ctx.status(200));
 	}),
 	rest.post('https://accounts.spotify.com/api/token', async (req, res, ctx) => {
 		const body = await req.json();
 		const params = new URLSearchParams(body);
-		const requiredParams = ['grant_type', 'code', 'redirect_uri', 'client_id', 'code_verifier'];
+		let requiredParams = ['grant_type', 'code', 'redirect_uri', 'client_id', 'code_verifier'];
+		if (params.get('grant_type') == 'refresh_token') {
+			requiredParams = ['refresh_token', 'client_id', 'client_id'];
+		}
 		const missingParams = requiredParams.filter((param) => !params.has(param));
 		if (missingParams.length > 0) {
 			return res(ctx.status(400));
@@ -30,7 +33,7 @@ const server = setupServer(
 			ctx.status(200),
 			ctx.json({
 				access_token: 'mockAccessToken',
-				refresh_token: 'mockRefreshToken'
+				refresh_token: 'mockRefreshTokenNew'
 			})
 		);
 	}),
@@ -66,7 +69,7 @@ const server = setupServer(
 			})
 		);
 	}),
-	rest.get('https://api.spotify.com/v1/recommendations?', (req, res, ctx) => {
+	rest.get('https://api.spotify.com/v1/recommendations', (req, res, ctx) => {
 		return res(
 			ctx.json({
 				seeds: [
@@ -186,6 +189,130 @@ const server = setupServer(
 						is_local: false
 					}
 				]
+			})
+		);
+	}),
+	rest.get('https://api.spotify.com/v1/search', (req, res, ctx) => {
+		return res(
+			ctx.json({
+				tracks: {
+					href: 'https://api.spotify.com/v1/search?query=joji&type=track&locale=en-US%2Cen%3Bq%3D0.9&offset=0&limit=1',
+					limit: 1,
+					next: 'https://api.spotify.com/v1/search?query=joji&type=track&locale=en-US%2Cen%3Bq%3D0.9&offset=1&limit=1',
+					offset: 0,
+					previous: null,
+					total: 32,
+					items: [
+						{
+							album: {
+								album_type: 'album',
+								total_tracks: 12,
+								available_markets: ['US'],
+								external_urls: {
+									spotify: 'https://open.spotify.com/album/34GQP3dILpyCN018y2k61L'
+								},
+								href: 'https://api.spotify.com/v1/albums/34GQP3dILpyCN018y2k61L',
+								id: '34GQP3dILpyCN018y2k61L',
+								images: [
+									{
+										height: 640,
+										url: 'https://i.scdn.co/image/ab67616d0000b273bcfc1c7e89de8f43788c8235',
+										width: 640
+									},
+									{
+										height: 300,
+										url: 'https://i.scdn.co/image/ab67616d00001e02bcfc1c7e89de8f43788c8235',
+										width: 300
+									},
+									{
+										height: 64,
+										url: 'https://i.scdn.co/image/ab67616d00004851bcfc1c7e89de8f43788c8235',
+										width: 64
+									}
+								],
+								name: 'Nectar',
+								release_date: '2020-09-25',
+								release_date_precision: 'day',
+								type: 'album',
+								uri: 'spotify:album:34GQP3dILpyCN018y2k61L'
+							},
+							artists: [
+								{
+									external_urls: {
+										spotify: 'https://open.spotify.com/artist/3MZsBdqDrRTJihTHQrO6Dq'
+									},
+									href: 'https://api.spotify.com/v1/artists/3MZsBdqDrRTJihTHQrO6Dq',
+									id: '3MZsBdqDrRTJihTHQrO6Dq',
+									name: 'Joji',
+									type: 'artist',
+									uri: 'spotify:artist:3MZsBdqDrRTJihTHQrO6Dq'
+								}
+							],
+							available_markets: ['US'],
+							disc_number: 1,
+							duration_ms: 209754,
+							explicit: true,
+							external_ids: {
+								isrc: 'USUG12001913'
+							},
+							external_urls: {
+								spotify: 'https://open.spotify.com/track/7eJMfftS33KTjuF7lTsMCx'
+							},
+							href: 'https://api.spotify.com/v1/tracks/7eJMfftS33KTjuF7lTsMCx',
+							id: '7eJMfftS33KTjuF7lTsMCx',
+							is_local: false,
+							name: 'Ew',
+							popularity: 71,
+							preview_url: null,
+							track_number: 7,
+							type: 'track',
+							uri: 'spotify:track:7eJMfftS33KTjuF7lTsMCx'
+						}
+					]
+				},
+				artists: {
+					href: 'https://api.spotify.com/v1/search?query=joji&type=artist&locale=en-US%2Cen%3Bq%3D0.9&offset=0&limit=1',
+					limit: 1,
+					next: null,
+					offset: 0,
+					previous: null,
+					total: 1,
+					items: [
+						{
+							external_urls: {
+								spotify: 'https://open.spotify.com/artist/3MZsBdqDrRTJihTHQrO6Dq'
+							},
+							followers: {
+								href: null,
+								total: 8710706
+							},
+							genres: ['viral pop'],
+							href: 'https://api.spotify.com/v1/artists/3MZsBdqDrRTJihTHQrO6Dq',
+							id: '3MZsBdqDrRTJihTHQrO6Dq',
+							images: [
+								{
+									url: 'https://i.scdn.co/image/ab6761610000e5eb4111c95b5f430c3265c7304b',
+									height: 640,
+									width: 640
+								},
+								{
+									url: 'https://i.scdn.co/image/ab676161000051744111c95b5f430c3265c7304b',
+									height: 320,
+									width: 320
+								},
+								{
+									url: 'https://i.scdn.co/image/ab6761610000f1784111c95b5f430c3265c7304b',
+									height: 160,
+									width: 160
+								}
+							],
+							name: 'Joji',
+							popularity: 79,
+							type: 'artist',
+							uri: 'spotify:artist:3MZsBdqDrRTJihTHQrO6Dq'
+						}
+					]
+				}
 			})
 		);
 	})
