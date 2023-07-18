@@ -13,5 +13,13 @@ getItemSpy.mockImplementation((key) => {
 	if (key === 'code_verifier') {
 		return 'mockVerifier';
 	}
+	if (key === 'ViBE') {
+		return JSON.stringify({
+			access_token: 'mockAccessToken',
+			refresh_token: 'mockRefreshToken',
+			display_name: 'mockDisplayName',
+			user_id: 'mockUserId'
+		});
+	}
 	return null;
 });
