@@ -3,7 +3,7 @@ export type SongDetails = {
 	title: string;
 	artists: string[];
 	image: string;
-	previewAudio: string;
+	previewAudio: string | null;
 };
 
 export type ArtistDetails = {
