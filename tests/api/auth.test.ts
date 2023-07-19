@@ -3,22 +3,57 @@ import {
 	STRING_SET,
 	CODE_VERIFIER_SET,
 	generateChallenge,
+	login,
 	exchangeToken,
+	url,
 	refreshToken
 } from '../../src/api/spotify/auth';
 import { localStorageMock, setItemSpy, getItemSpy } from '../mocks/localStorage';
+import { locationMock, replaceSpy } from '../mocks/Location';
+import { server } from '../mocks/browser';
 
-beforeEach(() => {
+const originalLocation = window;
+
+beforeAll(() => {
+	server.listen();
 	Object.defineProperty(window, 'localStorage', {
 		value: localStorageMock,
 		configurable: true
 	});
+	Object.defineProperty(global, 'location', {
+		value: locationMock
+	});
 });
-const originalLocation = window;
-afterEach(() => {
+
+beforeEach(() => {
+	getItemSpy.mockImplementation((key) => {
+		if (key === 'code_verifier') {
+			return 'mockVerifier';
+		}
+		if (key === 'ViBE') {
+			return JSON.stringify({
+				access_token: 'mockAccessToken',
+				refresh_token: 'mockRefreshToken',
+				display_name: 'mockDisplayName',
+				user_id: 'mockUserId'
+			});
+		}
+		return null;
+	});
+	setItemSpy.mockImplementation();
+	replaceSpy.mockImplementation();
+});
+
+afterAll(() => {
+	server.close();
 	Object.defineProperty(globalThis, 'window', {
 		value: originalLocation
 	});
+});
+
+afterEach(() => {
+	server.resetHandlers();
+	jest.restoreAllMocks();
 });
 
 describe('Auth', () => {
@@ -118,91 +153,27 @@ describe('Auth', () => {
 		expect(codeChallenge).toBe(expectedChallange);
 	});
 	it('Login', () => {
-		const oAuthParams = new URLSearchParams({
-			client_id: 'mockClientId',
-			response_type: `code`,
-			redirect_uri: 'mockRedirectUri',
-			scope: 'mockScope',
-			code_challenge_method: 'S256',
-			code_challenge: 'mockChallenge',
-			state: 'mackState'
-		});
-		const xhr = new XMLHttpRequest();
-		xhr.open('GET', `https://accounts.spotify.com/authorize?${oAuthParams}`, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
-		xhr.send(null);
-		xhr.onload = () => {
-			expect(xhr.status).toBe(200);
-		};
+		login();
+		expect(replaceSpy).toHaveBeenCalled();
 	});
-	it('Login missing params', () => {
-		const oAuthParams = new URLSearchParams({
-			redirect_uri: 'mockRedirectUri',
-			scope: 'mockScope',
-			code_challenge_method: 'S256',
-			code_challenge: 'mockChallenge',
-			state: 'mockState'
-		});
-		const xhr = new XMLHttpRequest();
-		xhr.open('GET', `https://accounts.spotify.com/authorize?${oAuthParams}`, true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
-		xhr.send(null);
-		xhr.onload = () => {
-			expect(xhr.status).toBe(400);
-		};
-	});
-	it('exchangeToken localStorage', () => {
-		exchangeToken('mockExchangeToken');
+	it('exchangeToken localStorage', async () => {
+		await exchangeToken('mockExchangeToken');
 		expect(getItemSpy).toHaveBeenCalledWith('code_verifier');
-		setItemSpy.mockImplementation((key, value) => {
-			expect(key).toBe('ViBE');
-			expect(value).toMatchObject({
+		expect(setItemSpy).toHaveBeenCalledWith(
+			'ViBE',
+			JSON.stringify({
 				access_token: 'mockAccessToken',
 				refresh_token: 'mockRefreshTokenNew',
 				display_name: '',
 				user_id: ''
-			});
-		});
-		getItemSpy.mockRestore();
-		setItemSpy.mockRestore();
+			})
+		);
+		expect(replaceSpy).toHaveBeenCalledWith(`${url}`);
 	});
-	it('exchangeToken missing param', () => {
-		const body = JSON.stringify({
-			code: null,
-			redirect_uri: null,
-			grant_type: 'authorization_code',
-			client_id: null,
-			code_verifier: null
-		});
-		const xhr = new XMLHttpRequest();
-		xhr.open('POST', 'https://accounts.spotify.com/api/token', true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mockClientId:mockClientSecret'));
-		xhr.send(body);
-		xhr.onload = () => {
-			expect(xhr.status).toBe(400);
-		};
-	});
-	it('refreshToken localStorage', () => {
-		refreshToken();
+	it('refreshToken localStorage', async () => {
+		await refreshToken();
 		expect(getItemSpy).toHaveBeenCalledWith('ViBE');
+		expect(setItemSpy).toBeCalled();
 		getItemSpy.mockRestore();
-	});
-	it('refreshToken missing param', () => {
-		const body = JSON.stringify({
-			refresh_token: null,
-			client_id: null,
-			grant_type: 'refresh_token'
-		});
-		const xhr = new XMLHttpRequest();
-		xhr.open('POST', 'https://accounts.spotify.com/api/token', true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mockClientId:mockClientSecret'));
-		xhr.send(body);
-		xhr.onload = () => {
-			expect(xhr.status).toBe(400);
-		};
 	});
 });

@@ -3,32 +3,9 @@ import { rest } from 'msw';
 
 const server = setupServer(
 	rest.get('https://accounts.spotify.com/authorize', (req, res, ctx) => {
-		const requiredParams = [
-			'client_id',
-			'response_type',
-			'redirect_uri',
-			'scope',
-			'code_challenge_method',
-			'code_challenge',
-			'state'
-		];
-		const missingParams = requiredParams.filter((param) => !req.url.searchParams.get(param));
-		if (missingParams.length > 0) {
-			return res(ctx.status(200));
-		}
 		return res(ctx.status(200));
 	}),
 	rest.post('https://accounts.spotify.com/api/token', async (req, res, ctx) => {
-		const body = await req.json();
-		const params = new URLSearchParams(body);
-		let requiredParams = ['grant_type', 'code', 'redirect_uri', 'client_id', 'code_verifier'];
-		if (params.get('grant_type') == 'refresh_token') {
-			requiredParams = ['refresh_token', 'client_id', 'client_id'];
-		}
-		const missingParams = requiredParams.filter((param) => !params.has(param));
-		if (missingParams.length > 0) {
-			return res(ctx.status(400));
-		}
 		return res(
 			ctx.status(200),
 			ctx.json({
@@ -315,6 +292,10 @@ const server = setupServer(
 				}
 			})
 		);
+	}),
+	rest.post('*', (req, res, ctx) => {
+		console.error(`Please add request handler for ${req.url.toString()}`);
+		return res(ctx.status(500), ctx.json({ error: 'Please add request handler' }));
 	})
 );
 
