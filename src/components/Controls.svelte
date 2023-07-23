@@ -69,18 +69,23 @@
 
 <div class="controls">
 	<div class="controlButtons">
-		<button class="playPause" on:click|stopPropagation={toggleAudio}>
-			<span class="material-icons">
-				{currStatus === status.PLAY ? 'pause' : 'play_arrow'}
-			</span>
-		</button>
-		<input
-			type="range"
-			max="30"
-			value={position}
-			class="trackPlaceholder"
-			on:click|stopPropagation|self={seek}
-		/>
+		{#if audio.src !== ''}
+			<button class="playPause" on:click|stopPropagation={toggleAudio}>
+				<span class="material-icons">
+					{currStatus === status.PLAY ? 'pause' : 'play_arrow'}
+				</span>
+			</button>
+			<input
+				type="range"
+				max="30"
+				value={position}
+				class="trackPlaceholder"
+				on:click|stopPropagation|self={seek}
+			/>
+		{:else}
+			<div class="noAudioText">Preview not available</div>
+		{/if}
+
 		<button on:click|stopPropagation={handleLikeSong}>
 			<span class={!liked ? 'material-symbols-outlined' : 'material-icons'}>favorite</span>
 		</button>
