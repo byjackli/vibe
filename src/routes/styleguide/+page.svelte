@@ -1,6 +1,7 @@
 <script>
 	import SearchButton from '../../components/SearchButton.svelte';
 	import Card from '../../components/Card.svelte';
+	import Slider from '../../components/utils/Slider/Slider.svelte';
 	let x = {
 		songid: 'a',
 		title: 'Sample Song Title',
@@ -9,6 +10,7 @@
 		previewAudio:
 			'https://p.scdn.co/mp3-preview/ce4a01f9dc6091951d0a94b640b625b46e0efbd2?cid=774b29d4f13844c495f206cafdad9c86'
 	};
+	let filter = 'acousticness';
 </script>
 
 <svelte:head>
@@ -69,3 +71,8 @@
 		<Card songDetails={x} />
 	</ul>
 </section>
+<section>
+	<h2>Filter</h2>
+	<Slider {filter} />
+</section>
+<section style="height: 100vh;" />
