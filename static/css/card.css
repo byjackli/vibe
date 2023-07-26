@@ -64,3 +64,10 @@ img {
 	height: 0.2rem;
 	margin-right: 0.5rem;
 }
+.noAudioText {
+	width: 12rem;
+	color: var(--accent2);
+	font-family: var(--body);
+	font-size: 1rem;
+	font-weight: bold;
+}

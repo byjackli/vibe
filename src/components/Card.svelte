@@ -11,7 +11,11 @@
 	let audio: HTMLAudioElement;
 
 	onMount(() => {
-		audio = new Audio(songDetails.previewAudio);
+		if (songDetails.previewAudio !== 'null') {
+			audio = new Audio(songDetails.previewAudio);
+		} else {
+			audio = new Audio();
+		}
 	});
 	function renderArtists(): string {
 		const { artists } = songDetails;
@@ -25,7 +29,7 @@
 		return artistsOneline;
 	}
 	function toggleExpand(): void {
-		if (expand) {
+		if (expand && audio) {
 			audio.pause();
 		}
 		savedPosition = trackPosition;
