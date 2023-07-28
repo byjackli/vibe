@@ -1,6 +1,7 @@
 import pkg from 'crypto-js';
 const { SHA256, enc } = pkg;
-import type { MyResponseType, LocalStorage } from './types';
+import type { LocalStorage } from './types';
+import fetch from 'cross-fetch';
 
 export const STRING_SET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 export const CODE_VERIFIER_SET =
@@ -57,27 +58,25 @@ export function login() {
 	window.location.replace(`https://accounts.spotify.com/authorize?${oAuthParams}`);
 }
 
-export function exchangeToken(code: string): void {
+export async function exchangeToken(code: string) {
 	const verifier = localStorage.getItem('code_verifier');
-	const body = new URLSearchParams({
-		code: code,
-		redirect_uri: redirectUri as string,
-		grant_type: 'authorization_code',
-		client_id: clientId as string,
-		code_verifier: verifier as string
+	const response = await fetch('https://accounts.spotify.com/api/token', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			Authorization: 'Basic ' + btoa(clientId + ':' + clientSecret)
+		},
+		body: new URLSearchParams({
+			code: code,
+			redirect_uri: redirectUri as string,
+			grant_type: 'authorization_code',
+			client_id: clientId as string,
+			code_verifier: verifier as string
+		})
 	});
-	const xhr = new XMLHttpRequest();
-	xhr.open('POST', 'https://accounts.spotify.com/api/token', true);
-	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	xhr.setRequestHeader('Authorization', 'Basic ' + btoa(clientId + ':' + clientSecret));
-	xhr.send(body);
-	xhr.onload = handleExchangeTokenResponse;
-}
-
-export function handleExchangeTokenResponse(this: XMLHttpRequest & MyResponseType): void {
-	if (this.status === 200) {
-		const data = JSON.parse(this.responseText);
-		const storedObj: LocalStorage = {
+	const data = await response.json();
+	if (response.status == 200) {
+		const storedObj = {
 			access_token: '',
 			refresh_token: '',
 			display_name: '',
@@ -86,45 +85,39 @@ export function handleExchangeTokenResponse(this: XMLHttpRequest & MyResponseTyp
 		if (data.refresh_token !== undefined && data.access_token !== undefined) {
 			storedObj.refresh_token = data.refresh_token;
 			storedObj.access_token = data.access_token;
+			localStorage.setItem('ViBE', JSON.stringify(storedObj));
 			window.location.replace(`${url}`);
 		}
-		localStorage.setItem('ViBE', JSON.stringify(storedObj));
 	} else {
-		alert(this.responseText);
+		alert(response.statusText);
 	}
 }
 
-export function refreshToken(): void {
-	const storedObj = localStorage.getItem('ViBE');
-	if (storedObj) {
-		const obj: LocalStorage = JSON.parse(storedObj);
+export async function refreshToken() {
+	const storedValue: string | null = localStorage.getItem('ViBE');
+	if (storedValue !== null) {
+		const obj: LocalStorage = JSON.parse(storedValue);
 		const refreshToken = obj.refresh_token;
-		const body = JSON.stringify({
-			refresh_token: refreshToken,
-			client_id: clientId,
-			grant_type: 'refresh_token'
+		const response = await fetch('https://accounts.spotify.com/api/token', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Basic ' + btoa(clientId + ':' + clientSecret)
+			},
+			body: JSON.stringify({
+				refresh_token: refreshToken,
+				client_id: clientId,
+				grant_type: 'refresh_token'
+			})
 		});
-		const xhr = new XMLHttpRequest();
-		xhr.open('POST', 'https://accounts.spotify.com/api/token', true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(clientId + ':' + clientSecret));
-		xhr.send(body);
-		xhr.onload = handleRefreshTokenResponse;
-	}
-}
-
-export function handleRefreshTokenResponse(this: XMLHttpRequest & MyResponseType): void {
-	if (this.status === 200) {
-		const storedObj = localStorage.getItem('ViBE');
-		if (storedObj) {
-			const obj: LocalStorage = JSON.parse(storedObj);
-			const data = JSON.parse(this.responseText);
+		const data = await response.json();
+		if (response.ok) {
 			if (data.access_token !== undefined) {
 				obj.access_token = data.access_token;
 				localStorage.setItem('ViBE', JSON.stringify(obj));
 			}
+		} else {
+			alert(response.statusText);
 		}
-	} else {
-		alert(this.responseText);
 	}
 }
