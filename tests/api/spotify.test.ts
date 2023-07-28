@@ -1,32 +1,60 @@
 import { server } from '../mocks/browser';
-import { describe, it, expect, afterAll, afterEach, beforeAll } from 'vitest';
 import { getUserData, getSongs, search } from '../../src/api/spotify/service';
+import { localStorageMock, setItemSpy, getItemSpy } from '../mocks/localStorage';
+
+const originalLocation = window;
 
 beforeAll(() => {
 	server.listen();
+	Object.defineProperty(window, 'localStorage', {
+		value: localStorageMock,
+		configurable: true
+	});
 });
 
-afterEach(() => {
-	server.resetHandlers();
+beforeEach(() => {
+	getItemSpy.mockImplementation((key) => {
+		if (key === 'code_verifier') {
+			return 'mockVerifier';
+		}
+		if (key === 'ViBE') {
+			return JSON.stringify({
+				access_token: 'mockAccessToken',
+				refresh_token: 'mockRefreshToken',
+				display_name: 'mockDisplayName',
+				user_id: 'mockUserId'
+			});
+		}
+		return null;
+	});
+	setItemSpy.mockImplementation();
 });
 
 afterAll(() => {
 	server.close();
+	Object.defineProperty(globalThis, 'window', {
+		value: originalLocation
+	});
+});
+
+afterEach(() => {
+	server.resetHandlers();
+	jest.restoreAllMocks();
 });
 
 describe('spotify endpoint tests', () => {
-	it('getUserData', () => {
-		const result = getUserData();
+	it('getUserData', async () => {
+		const result = await getUserData();
 		expect(result).toEqual({
 			display_name: 'mockDisplayName',
 			user_id: 'mockId'
 		});
 	});
-	it('getSongs', () => {
+	it('getSongs', async () => {
 		const params = new URLSearchParams({
 			mock: 'mockParams'
 		});
-		const result = getSongs(params.toString());
+		const result = await getSongs(params.toString());
 		expect(result).toEqual([
 			{
 				songid: 'mockId',
@@ -37,11 +65,11 @@ describe('spotify endpoint tests', () => {
 			}
 		]);
 	});
-	it('search', () => {
+	it('search', async () => {
 		const params = new URLSearchParams({
 			mock: 'mockParams'
 		});
-		const result = search(params.toString(), 1);
+		const result = await search(params.toString(), 1);
 		expect(result).toEqual([
 			{
 				type: 'track',

@@ -98,11 +98,6 @@ export interface Artist {
 	uri: string;
 }
 
-export interface MyResponseType {
-	status: number;
-	responseText: string;
-}
-
 export interface LocalStorage {
 	access_token: string;
 	refresh_token: string;
