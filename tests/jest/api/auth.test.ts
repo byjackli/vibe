@@ -7,10 +7,10 @@ import {
 	exchangeToken,
 	url,
 	refreshToken
-} from '../../src/api/spotify/auth';
-import { localStorageMock, setItemSpy, getItemSpy } from '../mocks/localStorage';
-import { locationMock, replaceSpy } from '../mocks/Location';
-import { server } from '../mocks/browser';
+} from '../../../src/api/spotify/auth';
+import { localStorageMock, setItemSpy, getItemSpy } from '../../mocks/localStorage';
+import { locationMock, replaceSpy } from '../../mocks/Location';
+import { server } from '../../mocks/browser';
 
 const originalLocation = window;
 
