@@ -1,6 +1,6 @@
-import { server } from '../mocks/browser';
-import { getUserData, getSongs, search } from '../../src/api/spotify/service';
-import { localStorageMock, setItemSpy, getItemSpy } from '../mocks/localStorage';
+import { server } from '../../mocks/browser';
+import { getUserData, getSongs, search } from '../../../src/api/spotify/service';
+import { localStorageMock, setItemSpy, getItemSpy } from '../../mocks/localStorage';
 
 const originalLocation = window;
 
