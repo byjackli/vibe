@@ -58,6 +58,11 @@ export function login() {
 	window.location.replace(`https://accounts.spotify.com/authorize?${oAuthParams}`);
 }
 
+export function logout() {
+	localStorage.removeItem('ViBE');
+	window.location.replace(`${url}`);
+}
+
 export async function exchangeToken(code: string) {
 	const verifier = localStorage.getItem('code_verifier');
 	const response = await fetch('https://accounts.spotify.com/api/token', {

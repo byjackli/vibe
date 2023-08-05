@@ -4,11 +4,12 @@ import {
 	CODE_VERIFIER_SET,
 	generateChallenge,
 	login,
+	logout,
 	exchangeToken,
 	url,
 	refreshToken
 } from '../../../src/api/spotify/auth';
-import { localStorageMock, setItemSpy, getItemSpy } from '../../mocks/localStorage';
+import { localStorageMock, setItemSpy, getItemSpy, removeItemSpy } from '../../mocks/localStorage';
 import { locationMock, replaceSpy } from '../../mocks/Location';
 import { server } from '../../mocks/browser';
 
@@ -42,6 +43,7 @@ beforeEach(() => {
 	});
 	setItemSpy.mockImplementation();
 	replaceSpy.mockImplementation();
+	removeItemSpy.mockImplementation();
 });
 
 afterAll(() => {
@@ -154,6 +156,11 @@ describe('Auth', () => {
 	});
 	it('Login', () => {
 		login();
+		expect(replaceSpy).toHaveBeenCalled();
+	});
+	it('Logout', () => {
+		logout();
+		expect(removeItemSpy).toHaveBeenCalledWith('ViBE');
 		expect(replaceSpy).toHaveBeenCalled();
 	});
 	it('exchangeToken localStorage', async () => {

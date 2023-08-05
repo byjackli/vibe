@@ -1,5 +1,5 @@
-import type { SongDetails, SearchDetails, ArtistDetails } from 'src/types/Details';
-import type { Song, Artist, LocalStorage } from 'src/api/spotify/types';
+import type { SongDetails, SearchDetails, ArtistDetails } from '../../types/Details';
+import type { Song, Artist, LocalStorage } from '../spotify/types';
 import fetch from 'cross-fetch';
 
 export async function getUserData() {
