@@ -11,7 +11,7 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectUri = process.env.REDIRECT_URI;
 const scope = `user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private`;
-export const url = 'temp';
+export const url = process.env.URL;
 
 export function generateRandom(set: string, length: number) {
 	let random = '';
