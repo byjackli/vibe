@@ -8,3 +8,4 @@ export const localStorageMock: Storage = {
 };
 export const setItemSpy = jest.spyOn(localStorageMock, 'setItem');
 export const getItemSpy = jest.spyOn(localStorageMock, 'getItem');
+export const removeItemSpy = jest.spyOn(localStorageMock, 'removeItem');

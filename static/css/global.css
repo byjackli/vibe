@@ -78,7 +78,6 @@ html,
 div#root {
 	min-height: 100vh;
 	background: var(--background);
-	overflow: scroll;
 }
 
 h1,
