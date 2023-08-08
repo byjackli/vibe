@@ -1,3 +1,7 @@
+<script>
+	import { login } from '../api/spotify/auth';
+</script>
+
 <svelte:head>
 	<title>ViBE</title>
 </svelte:head>
@@ -7,7 +11,7 @@
 		<h1 class="logo">ViBE</h1>
 		<p>advanced version of discover weekly</p>
 	</div>
-	<button class="main">sign in with spotify</button>
+	<button class="main" on:click={login}>sign in with spotify</button>
 </main>
 
 <style>
