@@ -91,7 +91,6 @@ export async function exchangeToken(code: string) {
 			storedObj.refresh_token = data.refresh_token;
 			storedObj.access_token = data.access_token;
 			localStorage.setItem('ViBE', JSON.stringify(storedObj));
-			window.location.replace(`${url}`);
 		}
 	} else {
 		alert(response.statusText);
