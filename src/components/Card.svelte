@@ -11,7 +11,7 @@
 	let audio: HTMLAudioElement;
 
 	onMount(() => {
-		if (songDetails.previewAudio !== 'null') {
+		if (songDetails.previewAudio !== null) {
 			audio = new Audio(songDetails.previewAudio);
 		} else {
 			audio = new Audio();
