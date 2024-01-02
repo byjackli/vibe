@@ -16,5 +16,13 @@ module.exports = {
 		browser: true,
 		es2017: true,
 		node: true
+	},
+	rules: {
+		// "error", // TODO: uncomment and remove comment before deployment
+		/*"no-console": [
+			{
+				"allow": ["warn", "error"]
+			}
+		]*/
 	}
 };

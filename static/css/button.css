@@ -74,8 +74,17 @@ button.link,
 .button.link {
 	padding: 0;
 	margin: 0;
-	text-decoration: underline;
 	font-weight: normal;
+	text-decoration: none;
+}
+
+a:link:hover,
+button.link:hover,
+.button.link:hover,
+a:link.underline,
+button.link.underline,
+.button.link.underline {
+	text-decoration: underline;
 }
 
 button.main.invert,

@@ -35,15 +35,7 @@
 
 @font-face {
 	font-family: 'Inter';
-	font-style: normal;
-	font-weight: 400;
-	src: url(../fonts/inter/Inter-Regular.ttf);
-	-webkit-font-smoothing: antialiased;
-}
-
-@font-face {
-	font-family: 'Inter';
-	font-style: normal;
+	font-style: light;
 	font-weight: 200;
 	src: url(../fonts/inter/Inter-ExtraLight.ttf);
 	-webkit-font-smoothing: antialiased;
@@ -52,6 +44,13 @@
 @font-face {
 	font-family: 'Inter';
 	font-style: normal;
+	font-weight: 400;
+	src: url(../fonts/inter/Inter-Regular.ttf);
+	-webkit-font-smoothing: antialiased;
+}
+@font-face {
+	font-family: 'Inter';
+	font-style: bold;
 	font-weight: 700;
 	src: url(../fonts/inter/Inter-Bold.ttf);
 	-webkit-font-smoothing: antialiased;
@@ -59,7 +58,7 @@
 
 @font-face {
 	font-family: 'Inter';
-	font-style: normal;
+	font-style: bolder;
 	font-weight: 900;
 	src: url(../fonts/inter/Inter-Black.ttf);
 	-webkit-font-smoothing: antialiased;
