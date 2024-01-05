@@ -6,7 +6,6 @@
 } */
 .card {
 	background-color: white;
-
 	height: 6rem;
 	width: 18rem;
 	padding: 0.5rem;
@@ -51,18 +50,45 @@ img {
 	justify-content: center;
 	align-items: center;
 }
-.controlButtons span {
+.playPause span {
+	font-size: 2rem;
+	padding: 0.2rem 0.5rem 0rem 0rem;
+}
+.likeButton span,
+.addButton span {
 	font-size: 1.5rem;
+	padding: 0.2rem 0.5rem 0rem 0.5rem;
 }
 .controlButtons button {
-	padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+	padding: 0;
 }
 .trackPlaceholder {
-	background-color: var(--accent2);
-
+	background: #ccc;
 	width: 9rem;
-	height: 0.2rem;
-	margin-right: 0.5rem;
+	height: 0.5rem;
+	margin: 0.5rem 0.5rem 0.5rem 0;
+	cursor: pointer;
+}
+.progressBarContainer {
+	overflow: hidden;
+	pointer-events: none;
+}
+.progressBar {
+	position: relative;
+	width: 0%;
+	height: 0.5rem;
+	background-color: var(--accent2);
+	pointer-events: none;
+}
+.progressThumb {
+	position: relative;
+	height: 1.2rem;
+	width: 0.6rem;
+	margin: 0;
+	background-color: var(--accent2);
+	transform: translateY(-70%);
+	left: 0%;
+	pointer-events: none;
 }
 .noAudioText {
 	width: 12rem;

@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import type { SongDetails } from '../types/Details';
 	import Controls from './Controls.svelte';
-	export let songDetails: SongDetails,
-		expand = false;
+	export let songDetails: SongDetails;
+	let expand = false;
 	let trackPosition = 0;
 	let savedPosition = 0;
 	let liked = false;
@@ -11,7 +11,7 @@
 	let audio: HTMLAudioElement;
 
 	onMount(() => {
-		if (songDetails.previewAudio !== 'null') {
+		if (songDetails.previewAudio !== null && songDetails.previewAudio !== 'null') {
 			audio = new Audio(songDetails.previewAudio);
 		} else {
 			audio = new Audio();
@@ -33,7 +33,6 @@
 			audio.pause();
 		}
 		savedPosition = trackPosition;
-		console.log(trackPosition);
 		expand = !expand;
 	}
 </script>
