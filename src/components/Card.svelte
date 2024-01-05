@@ -2,8 +2,9 @@
 	import { onMount } from 'svelte';
 	import type { SongDetails } from '../types/Details';
 	import Controls from './Controls.svelte';
+	import ControlStore from '../stores/ControlStore';
 	export let songDetails: SongDetails;
-	let expand = false;
+	$: expand = $ControlStore.currentSongId === songDetails.songid;
 	let trackPosition = 0;
 	let savedPosition = 0;
 	let liked = false;
@@ -29,8 +30,10 @@
 		return artistsOneline;
 	}
 	function toggleExpand(): void {
-		if (expand && audio) {
-			audio.pause();
+		if ($ControlStore.currentSongId === songDetails.songid) {
+			$ControlStore.currentSongId = undefined;
+		} else {
+			$ControlStore.currentSongId = songDetails.songid;
 		}
 		savedPosition = trackPosition;
 		expand = !expand;

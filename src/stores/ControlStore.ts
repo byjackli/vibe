@@ -1,10 +1,13 @@
 import { writable } from 'svelte/store';
-let currentSongId = undefined;
 
-export const ControlStore = writable({ currentSongId });
+type ControlStoreData = {
+	currentSongId: string | undefined;
+};
 
-export function updateCurrentSong(newSongId: string): void {
-	currentSongId = newSongId;
-}
+const initialData: ControlStoreData = {
+	currentSongId: undefined
+};
+
+export const ControlStore = writable<ControlStoreData>(initialData);
 
 export default ControlStore;
