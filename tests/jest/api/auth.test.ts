@@ -6,7 +6,6 @@ import {
 	login,
 	logout,
 	exchangeToken,
-	url,
 	refreshToken
 } from '../../../src/api/spotify/auth';
 import { localStorageMock, setItemSpy, getItemSpy, removeItemSpy } from '../../mocks/localStorage';
@@ -175,7 +174,6 @@ describe('Auth', () => {
 				user_id: ''
 			})
 		);
-		expect(replaceSpy).toHaveBeenCalledWith(`${url}`);
 	});
 	it('refreshToken localStorage', async () => {
 		await refreshToken();

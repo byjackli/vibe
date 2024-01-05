@@ -3,22 +3,27 @@ import type { Song, Artist, LocalStorage } from '../spotify/types';
 import fetch from 'cross-fetch';
 
 export async function getUserData() {
-	const accessToken = localStorage.getItem('access_token');
-	const response = await fetch('https://api.spotify.com/v1/me', {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${accessToken}`
+	try {
+		const storedValue: string | null = localStorage.getItem('ViBE');
+		if (storedValue !== null) {
+			const obj: LocalStorage = JSON.parse(storedValue);
+			const accessToken = obj.access_token;
+			const response = await fetch('https://api.spotify.com/v1/me', {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${accessToken}`
+				}
+			});
+			if (!response.ok) {
+				console.log('getUserData error');
+			}
+			const responseData = await response.json();
+			return responseData;
 		}
-	});
-	if (!response.ok) {
-		console.log('getUserData error');
+	} catch (error) {
+		console.log(error);
+		return null;
 	}
-	const responseData = await response.json();
-	const data = {
-		display_name: responseData.display_name,
-		user_id: responseData.id
-	};
-	return data;
 }
 
 export async function getSongs(params: string): Promise<SongDetails[]> {
