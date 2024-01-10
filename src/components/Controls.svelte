@@ -1,9 +1,5 @@
 <script lang="ts">
-	import ControlStore from '../stores/ControlStore';
 	import { onDestroy } from 'svelte';
-
-	// context vs store;
-	// can only play one song at a time; player controls was extracted
 	export let songid: string; // required to make modifications to songid (ie add to playlist and more)
 	export let audio: HTMLAudioElement; //is audio track for song, is an HTML Audio Element
 	export let added: boolean; //whether or not song is added to playlist
@@ -29,14 +25,6 @@
 		PAUSE: 'pause'
 	} as const;
 	let currStatus = 'pause';
-
-	if ($ControlStore.currentSongId !== songid) {
-		setPause();
-	} else {
-		//audio.load()
-		if (currStatus === status.PLAY) currStatus = status.PAUSE;
-		else currStatus = status.PLAY;
-	}
 
 	function handleAddSong() {
 		added = !added;
@@ -119,7 +107,10 @@
 		return;
 	}
 
-	onDestroy(() => clearInterval(updatePosition));
+	onDestroy(() => {
+		setPause();
+		clearInterval(updatePosition);
+	});
 </script>
 
 <link
