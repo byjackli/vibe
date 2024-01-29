@@ -78,7 +78,7 @@ describe('spotify endpoint tests', () => {
 		const params = new URLSearchParams({
 			mock: 'mockParams'
 		});
-		const result = await getSongs(params.toString());
+		const result = await getSongs(params);
 		expect(result).toEqual([
 			{
 				songid: 'mockId',

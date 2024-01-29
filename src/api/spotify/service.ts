@@ -26,7 +26,7 @@ export async function getUserData() {
 	}
 }
 
-export async function getSongs(params: string): Promise<SongDetails[]> {
+export async function getSongs(params: URLSearchParams): Promise<SongDetails[]> {
 	const storedValue: string | null = localStorage.getItem('ViBE');
 	if (storedValue !== null) {
 		const obj: LocalStorage = JSON.parse(storedValue);
@@ -49,8 +49,8 @@ export async function getSongs(params: string): Promise<SongDetails[]> {
 				songid: `${song.id}`,
 				title: `${song.name}`,
 				artists: artists,
-				image: song.album.images[0].url,
-				previewAudio: `${song.preview_url ? song.preview_url : null}`
+				image: song.album.images.length > 0 ? song.album.images[0].url : null,
+				previewAudio: song.preview_url ? `${song.preview_url}` : null
 			};
 			songList.push(newSong);
 		});
