@@ -12,7 +12,7 @@
 	let audio: HTMLAudioElement;
 
 	onMount(() => {
-		if (songDetails.previewAudio !== null && songDetails.previewAudio !== 'null') {
+		if (songDetails.previewAudio) {
 			audio = new Audio(songDetails.previewAudio);
 		} else {
 			audio = new Audio();
@@ -25,7 +25,7 @@
 		if (artists.length < 2) return artists[0];
 
 		const isLast = (index: number) => index + 1 < artists.length;
-		artists.forEach((artist, index) => (artistsOneline += isLast(index) ? artist : `${artist}, `));
+		artists.forEach((artist, index) => (artistsOneline += isLast(index) ? `${artist}, ` : artist));
 
 		return artistsOneline;
 	}

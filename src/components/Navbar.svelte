@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 
 	const denylist: string[] = [];
-	const pages: string[] = ['account', 'messages', 'settings', 'styleguide'];
+	const pages: string[] = ['account', 'messages', 'settings', 'styleguide', 'home'];
 
 	$: navbarVisibility = !denylist.includes($page.url.pathname);
 	$: currentPage = $page.url.pathname.slice(1);

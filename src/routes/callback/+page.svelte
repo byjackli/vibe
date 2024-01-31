@@ -9,6 +9,6 @@
 		await exchangeToken(code);
 		const userData: UserData = await getUserData();
 		await setUserData(userData);
-		window.location.replace(`${url}`);
+		window.location.replace(`${url}/home`);
 	});
 </script>
