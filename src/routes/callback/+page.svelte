@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { retrieveCode, setUserData, type UserData } from './callback';
+	import { retrieveCode, setUserData, type UserData } from './spotify-auth';
 	import { exchangeToken, url } from '../../api/spotify/auth';
 	import { getUserData } from '../../api/spotify/service';
 
