@@ -9,15 +9,18 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
     steps:
       - uses: actions/checkout@v4
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-      - run: npm ci && npm run build
+      - name: Building application
         env:
           CLIENT_ID: ${{secrets.CLIENT_ID}}
           CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-          REDIRECT_URI: ${{secrets.REDIRECT_URI}}
-          URL: ${{secrets.URL}}
+          REDIRECT_URI: ${{env.REDIRECT_URI}}
+          URL: ${{env.URL}}
+        run: npm ci && npm run build
+      - name: Deploying to production (live)
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VIBE_BYJACKLI }}'
