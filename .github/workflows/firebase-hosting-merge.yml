@@ -12,13 +12,14 @@ jobs:
     env:
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
-      - name: Deployment to production (live)
+      - name: Building application
         env:
           CLIENT_ID: ${{secrets.CLIENT_ID}}
           CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
           REDIRECT_URI: ${{env.REDIRECT_URI}}
           URL: ${{env.URL}}
+        run: npm ci && npm run build
+      - name: Deploying to production (live)
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
