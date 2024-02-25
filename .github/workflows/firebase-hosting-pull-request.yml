@@ -10,13 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deployment to pre-production
+        env:
+          CLIENT_ID: ${{secrets.CLIENT_ID}}
+          CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          REDIRECT_URI: ${{env.REDIRECT_URI}}
+          URL: ${{env.URL}}
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_VIBE_BYJACKLI }}'
           projectId: vibe-byjackli
           expires: 14d
-          client_id: ${{secrets.CLIENT_ID}}
-          client_secret: ${{secrets.CLIENT_SECRET}}
-          redirect_uri: ${{secrets.REDIRECT_URI}}
-          url: ${{secrets.URL}}
