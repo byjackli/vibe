@@ -12,8 +12,8 @@ jobs:
     env:
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
-      REDIRECT_URI: ${{env.REDIRECT_URI}}
-      URL: ${{env.URL}}
+      REDIRECT_URI: ${{secrets.REDIRECT_URI}}
+      URL: ${{secrets.URL}}
     steps:
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
